@@ -15,9 +15,10 @@ $_SESSION['apellidouser'] = $apellido;
 $_SESSION['correouser'] = $correo;
 $_SESSION['contraseña1user'] = $contraseña1;
 $_SESSION['contraseña2user'] = $contraseña2;
+$contraseña_hash = password_hash($contraseña1, PASSWORD_DEFAULT);
 
-if($contraseña1 == $contraseña2){
-    $contraseña_hash = password_hash($contraseña1, PASSWORD_DEFAULT);
+if($contraseña1 === $contraseña2 && !$contraseña_hash=''){
+    
 
     $stmt = $conn->prepare("INSERT INTO usuario(nombre, apellido, correo, contraseña) VALUES (:nombre, :apell, :correo, :contrasena_hash)");
     $stmt->bindParam(':nombre', $nombre);
