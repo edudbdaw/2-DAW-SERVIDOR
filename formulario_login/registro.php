@@ -1,12 +1,20 @@
 <?php
 
 require ('conexion.php');
+session_start();
 
-$nombre = $_POST['nombre'];
-$apellido = $_POST['apellido'];
-$correo = $_POST['correo'];
-$contraseña1 = $_POST['contraseña1'];
-$contraseña2 = $_POST['contraseña2'];
+
+$nombre = isset($_POST['nombre']) ? ($_POST['nombre']) : '';
+$apellido = isset($_POST['apellido']) ? ($_POST['apellido']) : '';
+$correo = isset($_POST['correo']) ? trim($_POST['correo']) : '';
+$contraseña1 = isset($_POST['contraseña1']) ? $_POST['contraseña1'] : '';
+$contraseña2 = isset($_POST['contraseña2']) ? $_POST['contraseña2'] : '';
+
+$_SESSION['nombreuser'] = $nombre;
+$_SESSION['apellidouser'] = $apellido;
+$_SESSION['correouser'] = $correo;
+$_SESSION['contraseña1user'] = $contraseña1;
+$_SESSION['contraseña2user'] = $contraseña2;
 
 if($contraseña1 == $contraseña2){
     $contraseña_hash = password_hash($contraseña1, PASSWORD_DEFAULT);
@@ -22,7 +30,7 @@ if($contraseña1 == $contraseña2){
     echo "Insertado correctamente";
     
 } else {
-    echo "Error, inténtalo de nuevo";
+    header('Location: registroform.php');
 }
 
 ?>
