@@ -12,7 +12,7 @@ try {
     
 } catch (PDOException $e) {
     echo "Conexion fallida";
-    echo $e->getMessage();
+    die($e->getMessage());
 }
 
 //before changes
