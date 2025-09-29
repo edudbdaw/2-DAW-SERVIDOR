@@ -12,7 +12,10 @@ try {
     
 } catch (PDOException $e) {
     echo "Conexion fallida";
+    // echo"";
     die($e->getMessage());
 }
 
 //before changes
+
+//git en clase
