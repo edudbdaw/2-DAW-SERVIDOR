@@ -58,11 +58,11 @@ try{
     $stmt->bindParam(':contrasena', $passwd_hash); 
     
     $stmt->execute();
-
-
+    echo "registro exitoso¡¡";
+    
     $_SESSION['exito'] = "Registro exitoso";
     header('Location:loginform.php');
-
+    
 }catch(PDOException $e){
     $_SESSION['errores'] = ["Error al registrar al usuario". $e->getMessage()];
     header('Location:registroform.php');
