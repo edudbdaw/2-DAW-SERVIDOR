@@ -33,8 +33,8 @@ unset($_SESSION['inputs']);
         <input type="text" name="nombre" id="nombre" value="<?php echo htmlspecialchars($inputs['nombre'] ?? ''); ?>">
         <br>
         
-        <label for="apellido">Apellido</label>
-        <input type="text" name="apellido" id="apellido" value="<?php echo htmlspecialchars($inputs['apellido'] ?? ''); ?>">
+        <label for="apellidos">Apellido</label>
+        <input type="text" name="apellidos" id="apellidos" value="<?php echo htmlspecialchars($inputs['apellidos'] ?? ''); ?>">
         <br>
         
         <label for="correo">Email</label>
@@ -42,11 +42,11 @@ unset($_SESSION['inputs']);
         <br>
         
         <label for="contraseña1">Contraseña</label>
-        <input type="password" name="contraseña1" id="contraseña1">
+        <input type="password" name="contrasena1" id="contrasena1">
         <br>
         
         <label for="contraseña2">Repetir Contraseña</label>
-        <input type="password" name="contraseña2" id="contraseña2">
+        <input type="password" name="contrasena2" id="contrasena2">
         <br>
         
         <input type="submit" name="enviar" id="enviar" value="Registrarse">

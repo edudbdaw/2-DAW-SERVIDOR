@@ -6,10 +6,9 @@ $username = 'root';
 $passwd = '';
 
 try {
-    $conn = new PDO("mysql:host=$servername;db_name = $db_name" , $username , $passwd);
-    $conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn = new PDO("mysql:host=$servername;dbname=$db_name", $username, $passwd);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Conexion correcta";
 } catch (PDOException $e) {
     die($e->getMessage());
-    
 }
