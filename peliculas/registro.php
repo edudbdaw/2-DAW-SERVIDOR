@@ -41,3 +41,27 @@ try {
 } catch (PDOException $e) {
     $errores[] = "Error al verificar el email". $e->getMessage();
 }
+
+if(!empty($errores)) {
+    $_SESSION['errores'] = $errores;
+    $_SESSION['inputs'] = $inputs;
+    header('Location:registroform.php');
+    exit();
+}  
+
+try{
+    $stmt = $conn->prepare('INSERT INTO usuarios( nombre, apellido, correo, contraseña) VALUES(:nombre, :apellido, :correo, :contraseña)');
+    $stmt->bindParam(':nombre', $nombre);
+    $stmt->bindParam(':apellido', $apellidos);
+    $stmt->bindParam(':correo', $correo);
+    $stmt->bindParam(':contraseña', $contraseña_hash);
+    $stmt -> execute();
+
+    $_SESSION['exito'] = "Registro exitoso";
+    header('Location:loginform.php');
+
+}catch(PDOException $e){
+    $_SESSION['errores'] = ["Error al registrar al usuario". $e->getMessage()];
+    header('Location:registroform.php');
+    exit();
+}
