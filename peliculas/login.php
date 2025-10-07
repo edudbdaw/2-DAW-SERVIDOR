@@ -28,12 +28,12 @@ try {
     
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($usuario && password_verify($contrasena, $usuario['passsword'])) {
+    if ($usuario && password_verify($contrasena, $usuario['password'])) {
         $_SESSION['user_id'] = $usuario['id'];
         $_SESSION['user_name'] = $usuario['nombre'];
 
         $_SESSION['mensaje_exito'] = "¡Bienvenido, " . htmlspecialchars($usuario['nombre']) . "!";
-        header('Location: dashboard.php');
+        header('Location: subirpeliculasform.php');
         exit();
     } else {
         $errores[] = "Email o contraseña incorrectos.";
