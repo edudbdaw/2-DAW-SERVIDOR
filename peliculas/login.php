@@ -17,7 +17,7 @@ if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
 
 if (!empty($errores)) {
     $_SESSION['errores'] = $errores;
-    header('Location: login.html');
+    header('Location: loginform.php');
     exit();
 }
 
@@ -38,13 +38,13 @@ try {
     } else {
         $errores[] = "Email o contraseña incorrectos.";
         $_SESSION['errores'] = $errores;
-        header('Location: login.html');
+        header('Location: loginform.php');
         exit();
     }
 } catch (PDOException $e) {
     $errores[] = "Error al loguearse: " . $e->getMessage();
     $_SESSION['errores'] = $errores;
-    header('Location: login.html');
+    header('Location: loginform.php');
     exit();
 }
 
