@@ -4,6 +4,10 @@ require 'conexion.php';
 
 $errores = [];
 
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['user_id'] = 1;
+} 
+
 $nombre_pelicula = $_POST['nombre_pelicula'] ?? '';
 $descripcion = $_POST['descripcion'] ?? '';
 $caratula = $_FILES['caratula'] ?? null;
@@ -51,7 +55,7 @@ try {
     $stmt = $conn->prepare("INSERT INTO peliculas (titulo, sinopsis, caratula, user_id) VALUES (:titulo, :sinopsis, :caratula, :user_id)");
     $stmt->bindParam(':titulo', $nombre_pelicula);
     $stmt->bindParam(':sinopsis', $descripcion);
-    $stmt->bindParam(':caratula', $nombre_aleatorio);
+    $stmt->bindParam(':caratula', $ruta_destino);
     $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
 
