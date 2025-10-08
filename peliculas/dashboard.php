@@ -52,6 +52,7 @@ try {
                     <?php foreach ($peliculas as $pelicula): ?>
                         <li class="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
                             <h3 class="text-lg font-medium mb-2 text-gray-800"><?php echo htmlspecialchars($pelicula['titulo']); ?></h3>
+                            <!--query string , cuando  usamos ? le decimos al navegador , a partir de aqui metemos datos-->
                             <a href="detalles_pelicula.php?id=<?php echo $pelicula['id']; ?>">
                                 <img src="<?php echo htmlspecialchars($pelicula['caratula']); ?>"  class="w-full h-auto rounded-md object-cover">
                             </a>
