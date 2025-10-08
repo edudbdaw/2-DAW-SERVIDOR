@@ -66,6 +66,9 @@ unset($_SESSION['inputs']);
                 Registrarse
             </button>
         </form>
+        <p class="mt-4 text-center text-gray-600">
+            ¿Ya tienes cuenta? <a href="loginform.php" class="text-blue-500 hover:underline">Logueate aquí</a>
+        </p>
     </div>
 </body>
 </html>

@@ -33,7 +33,7 @@ try {
         $_SESSION['user_name'] = $usuario['nombre'];
 
         $_SESSION['mensaje_exito'] = "¡Bienvenido, " . htmlspecialchars($usuario['nombre']) . "!";
-        header('Location: subirpeliculasform.php');
+        header('Location: dashboard.php');
         exit();
     } else {
         $errores[] = "Email o contraseña incorrectos.";
@@ -47,5 +47,7 @@ try {
     header('Location: loginform.php');
     exit();
 }
+
+
 
 
