@@ -57,7 +57,7 @@ $propietario = ($user_id_session == $pelicula['user_id']);
 
         <?php if ($propietario): ?>
             <div class="mt-6 flex space-x-4">
-                <a href="editar_pelicula.php?id=<?php echo $pelicula['id']; ?>">
+                <a href="editarPelicula.php?id=<?php echo $pelicula['id']; ?>">
                     <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300">Editar</button>
                 </a>
                 <a href="eliminar_pelicula.php?id=<?php echo $pelicula['id']; ?>" 
