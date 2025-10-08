@@ -7,7 +7,6 @@ $inputs = $_SESSION['inputs'] ?? [];
 unset($_SESSION['errores']);
 unset($_SESSION['inputs']);
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -52,8 +51,9 @@ unset($_SESSION['inputs']);
             
             <div>
                 <label for="contrasena1" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                <input type="password" name="contrasena1" id="contrasena1"
+                <input type="password" name="contrasena1" id="contrasena1" onkeyup="showHint(this.value)"
                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <p><span id= "txtHint"></span></p>
             </div>
             
             <div>
@@ -71,4 +71,23 @@ unset($_SESSION['inputs']);
         </p>
     </div>
 </body>
+
+<script>
+    function showHint(str) {
+        if (str.length==0) {
+            document.getElementById("txtHint").innerHTML = "Escriba una contraseña";
+            document.getElementById("txtHint").style.color = "red";
+            return;
+        } else {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+            };
+            xmlhttp.open("GET","family.php?q="+str,true);
+            xmlhttp.send();
+        }
+    }
+</script>
 </html>
