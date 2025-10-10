@@ -75,18 +75,25 @@ unset($_SESSION['inputs']);
 <script>
     function showHint(str) {
         if (str.length==0) {
-            document.getElementById("txtHint").innerHTML = "Escriba una contraseña";
+            document.getElementById("txtHint").innerHTML = "Escriba una contraseña\n";
             document.getElementById("txtHint").style.color = "red";
             return;
-        } else {
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("txtHint").innerHTML = this.responseText;
-            }
-            };
-            xmlhttp.open("GET","family.php?q="+str,true);
-            xmlhttp.send();
+        } else if (str.length<8) {
+            document.getElementById("txtHint").innerHTML = "Escriba una contraseña de 8 caracteres minimo";
+            document.getElementById("txtHint").style.color = "red";
+        } else if (str.length>15) {
+            document.getElementById("txtHint").innerHTML = "Contraseña muy larga , maximo 20 caracteres";
+            document.getElementById("txtHint").style.color = "red";
+        }
+        
+        const regexSimbolos = /[!@#$%^&*(),.?":{}|<>]/;
+        if (!regexSimbolos.test(str)) {
+            document.getElementById("txtHint").innerHTML = "La contraseña debe contener simbolos"
+            document.getElementById("txtHint").style.color = "red";
+        }
+
+        if (str) {
+            
         }
     }
 </script>
