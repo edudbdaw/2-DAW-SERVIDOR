@@ -74,27 +74,32 @@ unset($_SESSION['inputs']);
 
 <script>
     function showHint(str) {
-        if (str.length==0) {
-            document.getElementById("txtHint").innerHTML = "Escriba una contraseña\n";
+        if (str.length === 0) {
+            document.getElementById("txtHint").innerHTML = "Escriba una contraseña";
             document.getElementById("txtHint").style.color = "red";
             return;
-        } else if (str.length<8) {
-            document.getElementById("txtHint").innerHTML = "Escriba una contraseña de 8 caracteres minimo";
-            document.getElementById("txtHint").style.color = "red";
-        } else if (str.length>15) {
-            document.getElementById("txtHint").innerHTML = "Contraseña muy larga , maximo 20 caracteres";
-            document.getElementById("txtHint").style.color = "red";
-        }
-        
-        const regexSimbolos = /[!@#$%^&*(),.?":{}|<>]/;
-        if (!regexSimbolos.test(str)) {
-            document.getElementById("txtHint").innerHTML = "La contraseña debe contener simbolos"
-            document.getElementById("txtHint").style.color = "red";
         }
 
-        if (str) {
-            
-        }
+        // Creamos el objeto XMLHttpRequest (compatible con navegadores modernos)
+        const xmlHttp = new XMLHttpRequest();
+
+        // 1. Definimos qué pasa cuando el estado de la petición cambia
+        xmlHttp.onreadystatechange = function() {
+            // readyState 4: Petición completada
+            // status 200: Respuesta exitosa del servidor
+            if (this.readyState === 4 && this.status === 200) {
+                // 3. Insertamos la respuesta del servidor (el mensaje con estilo) en el <span>
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+
+        // 2. Abrimos la conexión al script PHP, enviando la contraseña como parámetro 'q'
+        // Usamos encodeURIComponent para seguridad y compatibilidad con la URL
+        const url = "validar_contrasena.php?q=" + encodeURIComponent(str);
+        xmlHttp.open("GET", url, true); // true = asíncrono
+        
+        // 4. Enviamos la petición
+        xmlHttp.send();
     }
 </script>
 </html>
