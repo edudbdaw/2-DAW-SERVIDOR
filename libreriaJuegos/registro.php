@@ -8,12 +8,6 @@ if (!isset($conn)) {
     die();
 }
 
-//Variables del formulario
-$username = $_POST['username'] ?? '';
-$correoUser = $_POST['correoUser'] ?? '';
-$password1 = $_POST['password1'] ?? '';
-$password2= $_POST['password2'] ?? '';
-
 $errores = [];
 
 //funcion manejos de errores
@@ -24,6 +18,13 @@ function manejoErrores($errores_añadir) {
         exit();
     } 
 }
+
+//Variables del formulario
+$username = $_POST['username'] ?? '';
+$correoUser = $_POST['correoUser'] ?? '';
+$password1 = $_POST['password1'] ?? '';
+$password2= $_POST['password2'] ?? '';
+
 
 // Validaciones
 if (empty($username)) {
@@ -45,7 +46,7 @@ $patron_contraseña = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-=_+{};:,
 if(!preg_match($patron_contraseña , $password1)){
     $errores[] = 'La contraseña debe ser de 8 caracteres minimo , contener un simbolo , mayusculas y minusculas';
 } else {
-    $password = password_hash($password1,PASSWORD_DEFAULT);
+    $password_hash = password_hash($password1,PASSWORD_DEFAULT);
 }
 
 
@@ -59,6 +60,45 @@ if (!empty($errores)) {
 
     manejoErrores($errores);
 }
+
+//Subir Foto Perfil
+define('RUTA_POR_DEFECTO' , 'subidas/perfil/default.png' );
+$fotoPerfilRuta = RUTA_POR_DEFECTO;
+
+//verificamos si error == 0 con UPLOAD_ERR_OK , si no se sube archivo es 4 y no entra en el isset
+if (isset($_FILES['fotoPerfil']) && $_FILES['fotoPerfil']['error'] === UPLOAD_ERR_OK ) {
+    //Recoger la informacion de el archivo 
+    $fotoPerfil = $_FILES['fotoPerfil'];
+
+    if ($fotoPerfil['size'] > 2097152) {
+        $errores[] = 'La foto es superoir a 2MB';
+    }
+
+    $formatosValidos = ['image/jpeg', 'image/png', 'image/gif'];
+    //Verificamos si el typo de la foto de perfil subida es valido con los que guarda nuestro array
+    if (!in_array($fotoPerfil['type'], $formatosValidos)) {
+        $errores[] = 'Formato de archivo no permitido. Solo JPG, PNG o GIF.';
+    }
+
+    if (empty($errores)) {
+
+        //Crear nombre unico si no hay errores
+        $extensionFoto = pathinfo($fotoPerfil['name'] , PATHINFO_EXTENSION);
+        $nombre_unico = uniqid().'.'.$extensionFoto;
+        $rutaDestino = 'subidas/perfil/'.$nombre_unico;
+
+        if(move_uploaded_file($fotoPerfil['tmp_name'] , $rutaDestino)) {
+            //Si hay exito
+            $fotoPerfilRuta = $rutaDestino;
+        } else {
+            $errores[] = 'No se pudo guardar el archivo';
+            manejoErrores($errores);
+        }
+
+    }
+}
+
+
 
 // Consulta de email y user unico
 
@@ -90,8 +130,16 @@ try {
 manejoErrores($errores);
 
 //Insertar datos en la bbdd
+
 try {
-    $stmt = $conn -> prepare("INSERT INTO usuarios (usename, email, password, profile_pic_path) VALUES(:username , :correoUser, :password, :fotoPerfil)");
+    $stmt = $conn -> prepare("INSERT INTO usuarios (username, email, password, profile_pic_path) VALUES(:username , :correoUser, :password_hash, :fotoPerfil)");
+    $stmt -> bindParam(':username' , $username);
+    $stmt -> bindParam(':correoUser' ,$correoUser);
+    $stmt -> bindParam(':password_hash' , $password_hash);
+    $stmt -> bindParam(':fotoPerfil' , $fotoPerfilRuta);
+    $stmt -> execute();
+    header('Location:form_login.php');
+    exit();
 } catch (PDOException $e) {
     $errores[] = 'Error al insertar datos'. $e->getMessage();
 }
