@@ -31,6 +31,10 @@ if (empty($username)) {
     $errores[] = 'Debe introducir un usuario';
 }
 
+if (strlen($username)<6) {
+    $errores [] = 'El usuario debe contener al menos 6 caraacteres';
+}
+
 if (!filter_var($correoUser , FILTER_VALIDATE_EMAIL)) {
     $errores[] = 'Debe introducir un correo electronico valido';
 }
