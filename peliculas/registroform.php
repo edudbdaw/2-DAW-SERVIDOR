@@ -30,7 +30,7 @@ unset($_SESSION['inputs']);
         }
         ?>
         
-        <form action="registro.php" method="post" class="space-y-4">
+        <form action="registro.php" method="post" class="space-y-4" enctype="multipart/form-data">
             <div>
                 <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
                 <input type="text" name="nombre" id="nombre" value="<?php echo htmlspecialchars($inputs['nombre'] ?? ''); ?>"
@@ -60,6 +60,11 @@ unset($_SESSION['inputs']);
                 <label for="contrasena2" class="block text-sm font-medium text-gray-700">Repetir Contraseña</label>
                 <input type="password" name="contrasena2" id="contrasena2"
                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <label for="Foto">Foto de Perfil</label>
+                <input type="file" name="fotop" id="fotoPerfil">
+            <div >
+
             </div>
             
             <button type="submit" name="enviar" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">

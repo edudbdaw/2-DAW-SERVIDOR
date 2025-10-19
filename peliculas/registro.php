@@ -10,6 +10,19 @@ $apellidos = $_POST['apellidos'];
 $correo = $_POST['correo'];
 $contrasena1 = trim($_POST['contrasena1']);
 $contrasena2 = trim($_POST['contrasena2']);
+$fotoP = $_FILES['fotoPerfil'] ?? null ;
+//'uploads/fotosP/default.png'
+
+// FOTO PERFIL
+if ($fotoP['error']!== UPLOAD_ERR_OK) {
+    $errores[]= "Error al subir la foto de perfil";
+} else  {
+    $permitidos = ['image/jpeg', 'image/png'];
+
+    if (!in_array($fotoP['type'], $permitidos)) {
+        $errores[] = "Solose permiten imagenes JPEG y PNG";
+    }
+}
 
 if (empty($nombre) || empty($apellidos) || empty($correo) || empty($contrasena1) || empty($contrasena2)) {
     $errores[] = "Debe rellenarse todos los huecos";
@@ -49,14 +62,25 @@ if(!empty($errores)) {
 }  
 
 try{
+    //FOTO P
+    $extension = pathinfo($fotoP['name'], PATHINFO_EXTENSION);
+    $nombre_aleatorio = uniqid().'.'.$extension;
+    $ruta_destino = 'uploads/fotosP/'.$nombre_aleatorio;
+
+    if(!move_uploaded_file($fotoP['tpm_name'], $ruta_destino)){
+        throw new Exception("Error al guardar el archivo");
+    };
+
     //ACORDARME NO USAR ñ POR SI ACASO ME DE ERRORES COMO Invalid parameter number: parameter was not defined
-    $stmt = $conn->prepare('INSERT INTO usuarios( nombre, apellido, correo, password) VALUES(:nombre, :apellido, :correo, :contrasena)');
+    $stmt = $conn->prepare('INSERT INTO usuarios( nombre, apellido, correo, password, fotoP) VALUES(:nombre, :apellido, :correo, :contrasena, :fotoP)');
+
     
     $stmt->bindParam(':nombre', $nombre);
     $stmt->bindParam(':apellido', $apellidos);
     $stmt->bindParam(':correo', $correo);
     $stmt->bindParam(':contrasena', $passwd_hash); 
-    
+    $stmt->bindParam(':fotoP', $fotoP);
+
     $stmt->execute();
     echo "registro exitoso¡¡";
     
