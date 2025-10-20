@@ -148,3 +148,4 @@ try {
     $errores[] = 'Error al insertar datos'. $e->getMessage();
 }
 
+manejoErrores($errores);

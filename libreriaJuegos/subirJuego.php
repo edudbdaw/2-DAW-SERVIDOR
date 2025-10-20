@@ -35,9 +35,20 @@
             <option value="mundoAbierto">Mundo Abierto</option>
         </select>
         <br>
+        <Label>Descripcion</Label><br><textarea id="descripcion" name="descripcion"></textarea><br>
         <label for="url">Url</label><br><input type="url" name="url" id="url" size="30"><br>
+        <label for="año">Año</label>
+        <select name="year_juego" id="year_juego">
+            <?php
+                $añoActual = date("Y");
+                for($i = 1980 ; $i<=$añoActual ; $i++ ){
+                    echo "<option value=$i>$i</option>";
+                }
+            ?>
+        </select><br>
         <label for="caratula">Caratula</label><br><input type="file" name="caratula" id="caratula">
         <input type="submit" name="submit" id="submit">
+
     </form>
 </body>
 </html>
