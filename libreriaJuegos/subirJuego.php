@@ -1,3 +1,14 @@
+<?php
+    session_start();
+    //verificar si hay una session existente
+    if (!isset($_SESSION['user_id'])) {
+        $errores [] = 'No hay una sesion iniciada , logueate';
+        $_SESSION['errores'] = $errores;
+        header('Location:form_login.php');
+        exit();
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +19,6 @@
 <body>
     <h1>¿Que juego quires subir?</h1>
     <?php
-        session_start();
         if (isset($_SESSION['errores']) && !empty($_SESSION['errores']) ) {
             echo '<div style="color: red; border: 1px solid red; padding: 10px;">';
             foreach ($_SESSION['errores'] as $error) {

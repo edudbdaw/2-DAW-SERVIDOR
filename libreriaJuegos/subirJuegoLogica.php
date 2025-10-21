@@ -62,20 +62,20 @@ $caratulaRuta = RUTA_POR_DEFECTO;
 if (isset($_FILES['caratula']) && $_FILES['caratula']['error']=== UPLOAD_ERR_OK) {
     $caratula = $_FILES['caratula'];
 
-    if ($caratula > 2097152) { //2MB
+    if ($caratula['size'] > 2097152) { //2MB
         $error[] = 'El tamaño de la imagen es superior a 2MB';
     }
 
     $formatosValidos = ['image/jpeg', 'image/png', 'image/gif'];
 
     if (!in_array($caratula['type'] , $formatosValidos)) {
-        $error [] = 'El formato de la imagen no es valido . Solo JPG , PNG o GIF';
+        $errores [] = 'El formato de la imagen no es valido . Solo JPG , PNG o GIF';
     }
 
     if (empty($error)) {
         $extension_caratula = pathinfo($caratula['name'], PATHINFO_EXTENSION);
         $nombreUnico = uniqid().'.'.$extension_caratula;
-        $rutaDestino = 'subidas/caratulas'.$nombreUnico;
+        $rutaDestino = 'subidas/caratulas/'.$nombreUnico;
 
         if (move_uploaded_file($caratula['tmp_name'], $rutaDestino)) {
             //Si hay exito actualizamos la ruta de la caratula a la que creamos
