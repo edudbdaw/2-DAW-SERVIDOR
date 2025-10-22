@@ -24,7 +24,9 @@
     <form action="login.php" method="post">
         <label for="nombreUser">Usuario</label><br><input type="text" name="username" id="username"><br>
         <label for="password">Contraseña</label><br><input type="password" name="password" id="password"><br>
-        <input type="submit">
+        <input type="submit"><br>
+        <a href="form_registro.php">Registrate</a>
+        
     </form>
 </body>
 </html>
