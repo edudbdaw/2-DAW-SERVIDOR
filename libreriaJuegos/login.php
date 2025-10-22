@@ -27,7 +27,7 @@ if (strlen($username)<6) {
 //Comprobacion contraseña
 $patron_contraseña = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-=_+{};:,<.>]).{8,20}$/';
 if(!preg_match($patron_contraseña , $password)){
-    $errores[] = 'La contraseña debe ser de 8 caracteres minimo , contener un simbolo , mayusculas y minusculas';
+    $errores[] = 'La contraseña debe ser de 8 caracteres minimo , contener un simbolo , mayusculas , minusculas y numeros';
 }
 
 manejoErrores($errores);
@@ -42,6 +42,14 @@ try {
     if ($usuario && password_verify($password , $usuario['password'])) {
         $_SESSION['user_id'] = $usuario['id'];
         $_SESSION['username'] = $usuario['username'];
+
+        if (isset($_POST['recordarSesion'])) {
+            
+            // token de sesión único y seguro
+            $tiempo = time() + (86400 * 30); // 30 días de duración (86400 segundos = 1 día)
+    
+            setcookie('recordarSesion', $usuario['username'], $tiempo, '/', '', false, true); 
+        }
         header('Location:dashboard.php');
         exit();
     } else {

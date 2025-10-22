@@ -1,6 +1,34 @@
 <?php
     session_start();
     require 'connbbdd.php';
+
+    //Verificar si exsite la coockie
+    if (!isset($_SESSION['user_id']) && isset($_COOKIE['recordarSesion'])) {
+    
+    $remember_username = $_COOKIE['recordarSesion'];
+    
+    try {
+        $stmt = $conn->prepare("SELECT id, username FROM usuarios WHERE username = :username LIMIT 1");
+        $stmt->bindParam(':username', $remember_username);
+        $stmt->execute();
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario) {
+            // Restaurar la sesión
+            $_SESSION['user_id'] = $usuario['id'];
+            $_SESSION['username'] = $usuario['username'];
+            
+            header('Location: dashboard.php'); 
+            exit();
+        } else {
+            //borrar coockie no valida
+            setcookie('username', '', time() - 3600);
+        }
+    } catch (PDOException $e) {
+        $error [] = 'No se pudo obtener la coockie';
+    }
+}
+
     if (!isset($_SESSION['user_id'])) {
         header('Location:form_login.php');
         exit();
