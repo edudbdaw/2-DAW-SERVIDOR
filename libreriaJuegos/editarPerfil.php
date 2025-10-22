@@ -68,6 +68,7 @@ if (!empty($errores)) {
         <img src="<?= htmlspecialchars($userData['profile_pic_path'])?>" width="100" class="profile-circle"><br>
         <input type="file" name="profile_pic" id="profile_pic"><br><br>
         <input type="submit" name="submit" value="Guardar Cambios">
+        <p></p>
     </form>
 </body>
 </html>
